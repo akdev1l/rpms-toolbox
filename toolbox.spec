@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.6
+Version:       0.0.7
 Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
@@ -11,7 +11,9 @@ BuildArch:     noarch
 # buildah and podman only work on the following architectures:
 ExclusiveArch: aarch64 %{arm} ppc64le s390x x86_64
 
+BuildRequires: go-md2man
 BuildRequires: meson
+BuildRequires: systemd
 
 Requires:      buildah
 Requires:      podman
@@ -48,8 +50,14 @@ debugging software that runs fully unprivileged using Podman.
 %doc NEWS README.md
 %license COPYING
 %{_bindir}/%{name}
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/%{name}-*.1*
+%{_tmpfilesdir}/%{name}.conf
 
 
 %changelog
+* Thu Mar 14 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.7-1
+- Update to 0.0.7
+
 * Fri Feb 22 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.6-1
 - Initial build after rename from fedora-toolbox
