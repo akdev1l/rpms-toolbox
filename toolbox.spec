@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.7
+Version:       0.0.8
 Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
@@ -11,6 +11,7 @@ BuildArch:     noarch
 # buildah and podman only work on the following architectures:
 ExclusiveArch: aarch64 %{arm} ppc64le s390x x86_64
 
+BuildRequires: ShellCheck
 BuildRequires: go-md2man
 BuildRequires: meson
 BuildRequires: systemd
@@ -105,8 +106,7 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %check
-# https://github.com/debarshiray/toolbox/issues/68
-# %%meson_test
+%meson_test
 
 
 %install
@@ -127,6 +127,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Fri Apr 12 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.8-1
+- Update to 0.0.8
+
 * Thu Mar 14 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.7-1
 - Update to 0.0.7
 
