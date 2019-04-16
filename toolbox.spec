@@ -1,6 +1,6 @@
 Name:          toolbox
 Version:       0.0.8
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -127,6 +127,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Tue Apr 16 2019 Adam Williamson <awilliam@redhat.com> - 0.0.8-2
+- Rebuild with Meson fix for #1699099
+
 * Fri Apr 12 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.8-1
 - Update to 0.0.8
 
