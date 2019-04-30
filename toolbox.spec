@@ -1,6 +1,6 @@
 Name:          toolbox
-Version:       0.0.8
-Release:       2%{?dist}
+Version:       0.0.9
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -14,6 +14,7 @@ ExclusiveArch: aarch64 %{arm} ppc64le s390x x86_64
 BuildRequires: ShellCheck
 BuildRequires: go-md2man
 BuildRequires: meson
+BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
 Requires:      buildah
@@ -101,7 +102,7 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %build
-%meson --buildtype=plain
+%meson --buildtype=plain -Dprofile_dir=%{_sysconfdir}/profile.d
 %meson_build
 
 
@@ -117,8 +118,10 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 %doc NEWS README.md
 %license COPYING
 %{_bindir}/%{name}
+%{_datadir}/bash-completion
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-*.1*
+%{_sysconfdir}/profile.d/toolbox.sh
 %{_tmpfilesdir}/%{name}.conf
 
 %files support
@@ -127,6 +130,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Tue Apr 30 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.9-1
+- Update to 0.0.9
+
 * Tue Apr 16 2019 Adam Williamson <awilliam@redhat.com> - 0.0.8-2
 - Rebuild with Meson fix for #1699099
 
