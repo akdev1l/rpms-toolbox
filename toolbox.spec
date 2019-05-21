@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.9
+Version:       0.0.10
 Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
@@ -17,7 +17,6 @@ BuildRequires: meson
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
-Requires:      buildah
 Requires:      podman
 
 # To be removed in Fedora 33
@@ -130,6 +129,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Tue May 21 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.10-1
+- Update to 0.0.10
+
 * Tue Apr 30 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.9-1
 - Update to 0.0.9
 
