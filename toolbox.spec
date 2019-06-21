@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.10
+Version:       0.0.11
 Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
@@ -129,6 +129,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Fri Jun 21 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.11-1
+- Update to 0.0.11
+
 * Tue May 21 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.10-1
 - Update to 0.0.10
 
