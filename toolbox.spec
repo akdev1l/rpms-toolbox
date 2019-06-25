@@ -1,6 +1,6 @@
 Name:          toolbox
 Version:       0.0.11
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -17,6 +17,7 @@ BuildRequires: meson
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
+Requires:      flatpak-session-helper
 Requires:      podman
 
 # To be removed in Fedora 33
@@ -129,6 +130,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Tue Jun 25 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.11-2
+- Require flatpak-session-helper
+
 * Fri Jun 21 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.11-1
 - Update to 0.0.11
 
