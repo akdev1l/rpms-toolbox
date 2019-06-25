@@ -12,7 +12,7 @@ BuildArch:     noarch
 ExclusiveArch: aarch64 %{arm} ppc64le s390x x86_64
 
 BuildRequires: ShellCheck
-BuildRequires: go-md2man
+BuildRequires: golang-github-cpuguy83-md2man
 BuildRequires: meson
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
