@@ -1,6 +1,6 @@
 Name:          toolbox
-Version:       0.0.11
-Release:       2%{?dist}
+Version:       0.0.12
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -130,6 +130,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Mon Jul 22 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.12-1
+- Update to 0.0.12
+
 * Tue Jun 25 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.11-2
 - Require flatpak-session-helper
 
