@@ -1,6 +1,6 @@
 Name:          toolbox
 Version:       0.0.12
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -130,6 +130,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Mon Jul 22 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.12-1
 - Update to 0.0.12
 
