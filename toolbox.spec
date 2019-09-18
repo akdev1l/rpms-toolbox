@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.13
+Version:       0.0.14
 Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
@@ -18,7 +18,7 @@ BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
 Requires:      flatpak-session-helper
-Requires:      podman > 1.4.0
+Requires:      podman >= 1.4.0
 
 # To be removed in Fedora 33
 Provides:      fedora-toolbox = %{version}-%{release}
@@ -130,6 +130,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Wed Sep 18 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.14-1
+- Update to 0.0.14
+
 * Thu Sep 05 2019 Debarshi Ray <rishi@fedoraproject.org> - 0.0.13-1
 - Update to 0.0.13
 
