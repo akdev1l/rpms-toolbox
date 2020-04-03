@@ -1,6 +1,6 @@
 Name:          toolbox
 Version:       0.0.18
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -19,10 +19,6 @@ BuildRequires: systemd
 
 Requires:      flatpak-session-helper
 Requires:      podman >= 1.4.0
-
-# To be removed in Fedora 33
-Provides:      fedora-toolbox = %{version}-%{release}
-Obsoletes:     fedora-toolbox < 0.0.5-2
 
 
 %description
@@ -130,6 +126,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Fri Apr 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.18-3
+- Drop compatibility Obsoletes and Provides for fedora-toolbox
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.18-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
