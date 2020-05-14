@@ -117,7 +117,7 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 %{_datadir}/bash-completion
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-*.1*
-%{_sysconfdir}/profile.d/toolbox.sh
+%{_sysconfdir}/profile.d/%{name}.sh
 %{_tmpfilesdir}/%{name}.conf
 
 %files support
