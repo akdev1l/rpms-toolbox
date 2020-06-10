@@ -1,6 +1,6 @@
 Name:          toolbox
 Version:       0.0.18
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -47,16 +47,18 @@ if the image isn't based on the fedora-toolbox image.
 %package       experience
 Summary:       Set of packages to enhance the %{name} experience
 
+Requires:      %{name}-support = %{version}-%{release}
 Requires:      bash-completion
 Requires:      bzip2
 Requires:      diffutils
 Requires:      dnf-plugins-core
 Requires:      findutils
-Requires:      flatpak-xdg-utils
+Requires:      flatpak-spawn
 Requires:      fpaste
 Requires:      git
 Requires:      gnupg
 Requires:      gnupg2-smime
+Requires:      gvfs-client
 Requires:      hostname
 Requires:      iputils
 Requires:      jwhois
@@ -68,7 +70,6 @@ Requires:      man-pages
 Requires:      mlocate
 Requires:      mtr
 Requires:      openssh-clients
-Requires:      PackageKit-command-not-found
 Requires:      pigz
 Requires:      procps-ng
 Requires:      rsync
@@ -126,6 +127,10 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Wed Jun 10 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.18-4
+- Sync the "experience" packages with the current Dockerfile
+- Make "experience" Require "support"
+
 * Fri Apr 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.18-3
 - Drop compatibility Obsoletes and Provides for fedora-toolbox
 
