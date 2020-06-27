@@ -8,7 +8,7 @@ URL:           https://github.com/containers/toolbox
 Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 
 BuildArch:     noarch
-# buildah and podman only work on the following architectures:
+# podman only works on the following architectures:
 ExclusiveArch: aarch64 %{arm} ppc64le s390x x86_64
 
 BuildRequires: ShellCheck
