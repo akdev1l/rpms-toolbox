@@ -1,6 +1,6 @@
 Name:          toolbox
 Version:       0.0.18
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -8,8 +8,6 @@ URL:           https://github.com/containers/toolbox
 Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 
 BuildArch:     noarch
-# podman only works on the following architectures:
-ExclusiveArch: aarch64 %{arm} ppc64le s390x x86_64
 
 BuildRequires: ShellCheck
 BuildRequires: golang-github-cpuguy83-md2man
@@ -127,6 +125,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Sat Jun 27 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.18-5
+- Remove ExclusiveArch to match Podman
+
 * Wed Jun 10 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.18-4
 - Sync the "experience" packages with the current Dockerfile
 - Make "experience" Require "support"
