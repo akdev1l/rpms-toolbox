@@ -24,7 +24,7 @@ Toolbox is offers a familiar RPM based environment for developing and
 debugging software that runs fully unprivileged using Podman.
 
 # The list of requires packages for -support and -experience should be in sync with:
-# https://github.com/debarshiray/toolbox/blob/master/images/fedora/f31/extra-packages
+# https://github.com/containers/toolbox/blob/master/images/fedora/f33/extra-packages
 %package       support
 Summary:       Required packages for the container image to support %{name}
 
