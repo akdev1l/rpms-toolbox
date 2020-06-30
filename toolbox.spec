@@ -4,7 +4,7 @@ Release:       5%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
-URL:           https://github.com/containers/toolbox
+URL:           https://github.com/containers/%{name}
 Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 
 BuildArch:     noarch
