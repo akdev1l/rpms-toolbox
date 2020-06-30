@@ -1,0 +1,73 @@
+From 4a1fc0c94f48c281acd1588f35c3bb95a1a1e2f2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Harry=20M=C3=ADchal?= <harrymichal@seznam.cz>
+Date: Sat, 27 Jun 2020 16:17:56 +0200
+Subject: [PATCH] Don't use Go's semantic import versioning
+
+Fedora doesn't support Go modules when building Go programs. This
+means that source code using semantic import versioning can't be built.
+
+https://github.com/containers/toolbox/pull/484
+---
+ src/cmd/create.go      | 2 +-
+ src/go.mod             | 2 +-
+ src/go.sum             | 4 ++--
+ src/pkg/utils/utils.go | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/cmd/create.go b/src/cmd/create.go
+index 80e4f8c36ca4..98df9d248466 100644
+--- a/src/cmd/create.go
++++ b/src/cmd/create.go
+@@ -28,7 +28,7 @@ import (
+ 	"github.com/containers/toolbox/pkg/podman"
+ 	"github.com/containers/toolbox/pkg/shell"
+ 	"github.com/containers/toolbox/pkg/utils"
+-	"github.com/godbus/dbus/v5"
++	"github.com/godbus/dbus"
+ 	"github.com/sirupsen/logrus"
+ 	"github.com/spf13/cobra"
+ )
+diff --git a/src/go.mod b/src/go.mod
+index 07891e13a612..45e490f38907 100644
+--- a/src/go.mod
++++ b/src/go.mod
+@@ -6,7 +6,7 @@ require (
+ 	github.com/HarryMichal/go-version v1.0.0
+ 	github.com/acobaugh/osrelease v0.0.0-20181218015638-a93a0a55a249
+ 	github.com/briandowns/spinner v1.10.0
+-	github.com/godbus/dbus/v5 v5.0.3
++	github.com/godbus/dbus v4.1.0+incompatible
+ 	github.com/sirupsen/logrus v1.4.2
+ 	github.com/spf13/cobra v0.0.5
+ 	golang.org/x/sys v0.0.0-20190422165155-953cdadca894
+diff --git a/src/go.sum b/src/go.sum
+index 5ee0d2179a39..5be421de9b13 100644
+--- a/src/go.sum
++++ b/src/go.sum
+@@ -15,8 +15,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
+ github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
+ github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
+ github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
+-github.com/godbus/dbus/v5 v5.0.3 h1:ZqHaoEF7TBzh4jzPmqVhE/5A1z9of6orkAe5uHoAeME=
+-github.com/godbus/dbus/v5 v5.0.3/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
++github.com/godbus/dbus v4.1.0+incompatible h1:WqqLRTsQic3apZUK9qC5sGNfXthmPXzUZ7nQPrNITa4=
++github.com/godbus/dbus v4.1.0+incompatible/go.mod h1:/YcGZj5zSblfDWMMoOzV4fas9FZnQYTkDnsGvmh2Grw=
+ github.com/hashicorp/hcl v1.0.0/go.mod h1:E5yfLk+7swimpb2L/Alb/PJmXilQ/rhwaUYs4T20WEQ=
+ github.com/inconshreveable/mousetrap v1.0.0 h1:Z8tu5sraLXCXIcARxBp/8cbvlwVa7Z1NHg9XEKhtSvM=
+ github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
+diff --git a/src/pkg/utils/utils.go b/src/pkg/utils/utils.go
+index 08de2997865a..d97d7b86a71b 100644
+--- a/src/pkg/utils/utils.go
++++ b/src/pkg/utils/utils.go
+@@ -31,7 +31,7 @@ import (
+ 
+ 	"github.com/acobaugh/osrelease"
+ 	"github.com/containers/toolbox/pkg/shell"
+-	"github.com/godbus/dbus/v5"
++	"github.com/godbus/dbus"
+ 	"github.com/sirupsen/logrus"
+ 	"golang.org/x/sys/unix"
+ )
+-- 
+2.25.4
+

@@ -1,0 +1,30 @@
+From 38d6d4702c05dfa7dd48bdd70d57348ad24ca877 Mon Sep 17 00:00:00 2001
+From: Debarshi Ray <rishi@fedoraproject.org>
+Date: Tue, 30 Jun 2020 18:30:26 +0200
+Subject: [PATCH] pkg/utils: Make it build on aarch64
+
+The syscall.Dup2 wrapper isn't defined on aarch64, which breaks the
+build as:
+  ../../pkg/utils/utils.go:551:12: undefined: syscall.Dup2
+
+https://github.com/containers/toolbox/pull/486
+---
+ src/pkg/utils/utils.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/pkg/utils/utils.go b/src/pkg/utils/utils.go
+index 08de2997865a..6d38b709fb7a 100644
+--- a/src/pkg/utils/utils.go
++++ b/src/pkg/utils/utils.go
+@@ -548,7 +548,7 @@ func ShowManual(manual string) error {
+ 	stderrFdInt := int(stderrFd)
+ 	stdoutFd := os.Stdout.Fd()
+ 	stdoutFdInt := int(stdoutFd)
+-	if err := syscall.Dup2(stdoutFdInt, stderrFdInt); err != nil {
++	if err := syscall.Dup3(stdoutFdInt, stderrFdInt, 0); err != nil {
+ 		return errors.New("failed to redirect standard error to standard output")
+ 	}
+ 
+-- 
+2.25.4
+

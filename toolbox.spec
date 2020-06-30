@@ -1,16 +1,33 @@
 Name:          toolbox
-Version:       0.0.18
-Release:       5%{?dist}
+Version:       0.0.91
+
+%global goipath github.com/containers/%{name}
+%gometa
+
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
 URL:           https://github.com/containers/%{name}
 Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 
-BuildArch:     noarch
+Patch0:        toolbox-Make-it-build-on-aarch64.patch
+
+# Fedora specific
+Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
+Patch101:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild.patch
+Patch102:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild-for-PPC64.patch
 
 BuildRequires: ShellCheck
+BuildRequires: golang >= 1.13
 BuildRequires: golang-github-cpuguy83-md2man
+BuildRequires: golang(github.com/HarryMichal/go-version)
+BuildRequires: golang(github.com/acobaugh/osrelease)
+BuildRequires: golang(github.com/briandowns/spinner) >= 1.10.0
+BuildRequires: golang(github.com/godbus/dbus) >= 5.0.3
+BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
+BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
+BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
@@ -93,10 +110,24 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %prep
-%autosetup
+%setup -q
+%patch0 -p1
+%patch100 -p1
+
+%ifnarch ppc64
+%patch101 -p1
+%else
+%patch102 -p1
+%endif
+
+%gomkdir
 
 
 %build
+export GO111MODULE=off
+export GOPATH=%{gobuilddir}:%{gopath}
+ln -s src/cmd cmd
+ln -s src/pkg pkg
 %meson --buildtype=plain -Dprofile_dir=%{_sysconfdir}/profile.d
 %meson_build
 
@@ -110,7 +141,7 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %files
-%doc NEWS README.md
+%doc CODE-OF-CONDUCT.md NEWS README.md SECURITY.md
 %license COPYING
 %{_bindir}/%{name}
 %{_datadir}/bash-completion
@@ -125,6 +156,9 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
 %changelog
+* Tue Jun 30 2020 Harry Míchal <harrymichal@seznam.cz> - 0.0.91-1
+- Update to 0.0.91
+
 * Sat Jun 27 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.18-5
 - Remove ExclusiveArch to match Podman
 
