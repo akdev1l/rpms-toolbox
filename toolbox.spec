@@ -1,18 +1,15 @@
 Name:          toolbox
-Version:       0.0.91
+Version:       0.0.92
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
 URL:           https://github.com/containers/%{name}
 Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
-
-Patch0:        toolbox-Make-it-build-on-aarch64.patch
-Patch1:        toolbox-Embed-the-version-from-Meson-into-the-binary.patch
 
 # Fedora specific
 Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
@@ -112,8 +109,6 @@ Dockerfile if the image isn't based on the fedora-toolbox image.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 %patch100 -p1
 
 %ifnarch ppc64
@@ -158,6 +153,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Fri Jul 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.92-1
+- Update to 0.0.92
+
 * Fri Jul 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.91-2
 - Fix the 'toolbox --version' output
 
