@@ -1,4 +1,4 @@
-From 4a1fc0c94f48c281acd1588f35c3bb95a1a1e2f2 Mon Sep 17 00:00:00 2001
+From deac27651c22ad6e3a4045706c4c35292df736e8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Harry=20M=C3=ADchal?= <harrymichal@seznam.cz>
 Date: Sat, 27 Jun 2020 16:17:56 +0200
 Subject: [PATCH] Don't use Go's semantic import versioning
@@ -15,7 +15,7 @@ https://github.com/containers/toolbox/pull/484
  4 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/src/cmd/create.go b/src/cmd/create.go
-index 80e4f8c36ca4..98df9d248466 100644
+index 0b78572f4e5c..0b8c30f40297 100644
 --- a/src/cmd/create.go
 +++ b/src/cmd/create.go
 @@ -28,7 +28,7 @@ import (
@@ -26,25 +26,25 @@ index 80e4f8c36ca4..98df9d248466 100644
 +	"github.com/godbus/dbus"
  	"github.com/sirupsen/logrus"
  	"github.com/spf13/cobra"
- )
+ 	"golang.org/x/crypto/ssh/terminal"
 diff --git a/src/go.mod b/src/go.mod
-index 07891e13a612..45e490f38907 100644
+index 2b1ac3018c8d..e8c4452c341d 100644
 --- a/src/go.mod
 +++ b/src/go.mod
-@@ -6,7 +6,7 @@ require (
- 	github.com/HarryMichal/go-version v1.0.0
+@@ -7,7 +7,7 @@ require (
  	github.com/acobaugh/osrelease v0.0.0-20181218015638-a93a0a55a249
  	github.com/briandowns/spinner v1.10.0
+ 	github.com/docker/go-units v0.4.0
 -	github.com/godbus/dbus/v5 v5.0.3
 +	github.com/godbus/dbus v4.1.0+incompatible
  	github.com/sirupsen/logrus v1.4.2
  	github.com/spf13/cobra v0.0.5
- 	golang.org/x/sys v0.0.0-20190422165155-953cdadca894
+ 	golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9
 diff --git a/src/go.sum b/src/go.sum
-index 5ee0d2179a39..5be421de9b13 100644
+index 4d6a0034d990..3b33ef9faec8 100644
 --- a/src/go.sum
 +++ b/src/go.sum
-@@ -15,8 +15,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
+@@ -17,8 +17,8 @@ github.com/docker/go-units v0.4.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDD
  github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
  github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
  github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
@@ -56,13 +56,13 @@ index 5ee0d2179a39..5be421de9b13 100644
  github.com/inconshreveable/mousetrap v1.0.0 h1:Z8tu5sraLXCXIcARxBp/8cbvlwVa7Z1NHg9XEKhtSvM=
  github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 diff --git a/src/pkg/utils/utils.go b/src/pkg/utils/utils.go
-index 08de2997865a..d97d7b86a71b 100644
+index 634d981e8967..db60739271cf 100644
 --- a/src/pkg/utils/utils.go
 +++ b/src/pkg/utils/utils.go
-@@ -31,7 +31,7 @@ import (
- 
+@@ -33,7 +33,7 @@ import (
  	"github.com/acobaugh/osrelease"
  	"github.com/containers/toolbox/pkg/shell"
+ 	"github.com/docker/go-units"
 -	"github.com/godbus/dbus/v5"
 +	"github.com/godbus/dbus"
  	"github.com/sirupsen/logrus"

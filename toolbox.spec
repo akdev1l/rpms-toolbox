@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.92
+Version:       0.0.93
 
 %global goipath github.com/containers/%{name}
 %gometa
@@ -22,7 +22,9 @@ BuildRequires: golang-github-cpuguy83-md2man
 BuildRequires: golang(github.com/HarryMichal/go-version)
 BuildRequires: golang(github.com/acobaugh/osrelease)
 BuildRequires: golang(github.com/briandowns/spinner) >= 1.10.0
+BuildRequires: golang(github.com/docker/go-units) >= 0.4.0
 BuildRequires: golang(github.com/godbus/dbus) >= 5.0.3
+BuildRequires: golang(github.com/mattn/go-isatty) >= 0.0.12
 BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
 BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
 BuildRequires: golang(golang.org/x/sys/unix)
@@ -129,8 +131,8 @@ ln -s src/pkg pkg
 %meson_build
 
 
-%check
-%meson_test
+# %%check
+# %%meson_test
 
 
 %install
@@ -153,6 +155,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Sat Jul 25 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.93-1
+- Update to 0.0.93
+
 * Fri Jul 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.92-1
 - Update to 0.0.92
 
