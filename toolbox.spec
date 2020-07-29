@@ -4,7 +4,7 @@ Version:       0.0.93
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -155,6 +155,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.93-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Sat Jul 25 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.93-1
 - Update to 0.0.93
 
