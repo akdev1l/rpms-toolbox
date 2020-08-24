@@ -1,10 +1,10 @@
 Name:          toolbox
-Version:       0.0.93
+Version:       0.0.94
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -109,6 +109,16 @@ The %{name}-experience package should be typically installed from the
 Dockerfile if the image isn't based on the fedora-toolbox image.
 
 
+%package       tests
+Summary:       Tests for %{name}
+
+Requires:      %{name}%{?_isa} = %{version}-%{release}
+Requires:      bats
+
+%description   tests
+The %{name}-tests package contains system tests for %{name}.
+
+
 %prep
 %setup -q
 %patch100 -p1
@@ -131,8 +141,8 @@ ln -s src/pkg pkg
 %meson_build
 
 
-# %%check
-# %%meson_test
+%check
+%meson_test
 
 
 %install
@@ -153,8 +163,14 @@ ln -s src/pkg pkg
 
 %files experience
 
+%files tests
+%{_datadir}/%{name}
+
 
 %changelog
+* Mon Aug 24 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.94-1
+- Update to 0.0.94
+
 * Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.93-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 

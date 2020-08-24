@@ -1,4 +1,4 @@
-From d83d1f87082cc1cfb3c71844c8266787a258faba Mon Sep 17 00:00:00 2001
+From d70e3b4bf7825e67f57373fcd6e8da5ed1d5b461 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <rishi@fedoraproject.org>
 Date: Mon, 29 Jun 2020 17:57:47 +0200
 Subject: [PATCH] build: Make the build flags match Fedora's %{gobuild} for
@@ -29,16 +29,16 @@ explicitly specify the name of the output binary.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/go-build-wrapper b/src/go-build-wrapper
-index 8f84277ed6d8..ec6b9f68bb05 100755
+index f061a1c5ccf6..8baaff53b329 100755
 --- a/src/go-build-wrapper
 +++ b/src/go-build-wrapper
 @@ -27,5 +27,6 @@ if ! cd "$1"; then
      exit 1
  fi
  
--go build -trimpath -ldflags "-X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2"
+-go build -trimpath -ldflags "-extldflags '-Wl,--wrap,pthread_sigmask $4' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2"
 +unset LDFLAGS
-+go build -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -extldflags '-Wl,-z,relro -Wl,--as-needed  -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld ' -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -a -v -x -o "$2/toolbox"
++go build -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -extldflags '-Wl,-z,relro -Wl,--as-needed  -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,--wrap,pthread_sigmask $4' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -a -v -x -o "$2/toolbox"
  exit "$?"
 -- 
 2.25.4
