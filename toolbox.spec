@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.95
+Version:       0.0.96
 
 %global goipath github.com/containers/%{name}
 %gometa
@@ -168,6 +168,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Thu Oct 01 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.96-1
+- Update to 0.0.96
+
 * Sun Aug 30 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.95-1
 - Update to 0.0.95
 
