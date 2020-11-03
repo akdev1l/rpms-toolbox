@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.96
+Version:       0.0.97
 
 %global goipath github.com/containers/%{name}
 %gometa
@@ -23,6 +23,7 @@ BuildRequires: golang(github.com/HarryMichal/go-version)
 BuildRequires: golang(github.com/acobaugh/osrelease)
 BuildRequires: golang(github.com/briandowns/spinner) >= 1.10.0
 BuildRequires: golang(github.com/docker/go-units) >= 0.4.0
+BuildRequires: golang(github.com/fsnotify/fsnotify) >= 1.4.7
 BuildRequires: golang(github.com/godbus/dbus) >= 5.0.3
 BuildRequires: golang(github.com/mattn/go-isatty) >= 0.0.12
 BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
@@ -168,6 +169,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Tue Nov 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.97-1
+- Update to 0.0.97
+
 * Thu Oct 01 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.96-1
 - Update to 0.0.96
 
