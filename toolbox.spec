@@ -53,7 +53,7 @@ Requires:      vte-profile
 
 %description   support
 The %{name}-support package contains all the required packages that are needed
-to be installed in the container image to make it work with the %{name}.
+to be installed in the OCI image to make it work with %{name}.
 
 The %{name}-support package should be typically installed from the Dockerfile
 if the image isn't based on the fedora-toolbox image.
