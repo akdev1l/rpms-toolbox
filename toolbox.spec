@@ -4,7 +4,7 @@ Version:       0.0.97
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -49,7 +49,6 @@ Summary:       Required packages for the container image to support %{name}
 # These are really required to make the image work with toolbox
 Requires:      passwd
 Requires:      shadow-utils
-Requires:      krb5-libs
 Requires:      vte-profile
 
 %description   support
@@ -79,12 +78,14 @@ Requires:      hostname
 Requires:      iputils
 Requires:      jwhois
 Requires:      keyutils
+Requires:      krb5-libs
 Requires:      less
 Requires:      lsof
 Requires:      man-db
 Requires:      man-pages
 Requires:      mlocate
 Requires:      mtr
+Requires:      nss-mdns
 Requires:      openssh-clients
 Requires:      pigz
 Requires:      procps-ng
@@ -98,6 +99,7 @@ Requires:      unzip
 Requires:      wget
 Requires:      which
 Requires:      words
+Requires:      xorg-x11-xauth
 Requires:      xz
 Requires:      zip
 
@@ -169,6 +171,10 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Wed Nov 25 2020 Ondřej Míchal <harrymichal@seznam.cz> - 0.0.97-2
+- Move krb5-libs from -support to -experience, and update the list of packages
+  in -experience
+
 * Tue Nov 03 2020 Debarshi Ray <rishi@fedoraproject.org> - 0.0.97-1
 - Update to 0.0.97
 
