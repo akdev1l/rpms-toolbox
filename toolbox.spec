@@ -1,10 +1,10 @@
 Name:          toolbox
-Version:       0.0.97
+Version:       0.0.98
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -171,6 +171,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Tue Jan 05 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.98-1
+- Update to 0.0.98
+
 * Wed Nov 25 2020 Ondřej Míchal <harrymichal@seznam.cz> - 0.0.97-2
 - Move krb5-libs from -support to -experience, and update the list of packages
   in -experience
