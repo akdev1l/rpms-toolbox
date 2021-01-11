@@ -4,7 +4,7 @@ Version:       0.0.98.1
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -138,6 +138,7 @@ The %{name}-tests package contains system tests for %{name}.
 %build
 export GO111MODULE=off
 export GOPATH=%{gobuilddir}:%{gopath}
+export CGO_CFLAGS="%{optflags} -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 ln -s src/cmd cmd
 ln -s src/pkg pkg
 %meson --buildtype=plain -Dprofile_dir=%{_sysconfdir}/profile.d
@@ -171,6 +172,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Mon Jan 11 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.98.1-2
+- Harden the binary by using the same CGO_CFLAGS as on RHEL 8
+
 * Thu Jan 07 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.98.1-1
 - Update to 0.0.98.1
 
