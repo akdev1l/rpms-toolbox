@@ -1,10 +1,10 @@
 Name:          toolbox
-Version:       0.0.98.1
+Version:       0.0.99
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -38,8 +38,9 @@ Requires:      podman >= 1.4.0
 
 
 %description
-Toolbox is offers a familiar RPM based environment for developing and
-debugging software that runs fully unprivileged using Podman.
+Toolbox is a tool for Linux operating systems, which allows the use of
+containerized command line environments. It is built on top of Podman and
+other standard container technologies from OCI.
 
 # The list of requires packages for -support and -experience should be in sync with:
 # https://github.com/containers/toolbox/blob/master/images/fedora/f33/extra-packages
@@ -172,6 +173,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Tue Jan 12 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99-1
+- Update to 0.0.99
+
 * Mon Jan 11 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.98.1-2
 - Harden the binary by using the same CGO_CFLAGS as on RHEL 8
 
