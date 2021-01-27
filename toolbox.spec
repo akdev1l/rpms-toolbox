@@ -4,7 +4,7 @@ Version:       0.0.99
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Unprivileged development environment
 
 License:       ASL 2.0
@@ -173,6 +173,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.99-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Tue Jan 12 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99-1
 - Update to 0.0.99
 
