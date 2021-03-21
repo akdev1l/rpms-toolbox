@@ -122,6 +122,10 @@ Summary:       Tests for %{name}
 
 Requires:      %{name}%{?_isa} = %{version}-%{release}
 Requires:      bats
+Requires:      coreutils
+Requires:      gawk
+Requires:      grep
+Requires:      skopeo
 
 %description   tests
 The %{name}-tests package contains system tests for %{name}.
