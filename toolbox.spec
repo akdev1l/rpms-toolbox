@@ -5,7 +5,7 @@ Version:       0.0.99.1
 %gometa
 
 Release:       1%{?dist}
-Summary:       Unprivileged development environment
+Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
 URL:           https://github.com/containers/%{name}
