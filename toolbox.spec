@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.99.1
+Version:       0.0.99.2
 
 %global goipath github.com/containers/%{name}
 %gometa
@@ -27,6 +27,7 @@ BuildRequires: golang(github.com/fsnotify/fsnotify) >= 1.4.7
 BuildRequires: golang(github.com/godbus/dbus) >= 5.0.3
 BuildRequires: golang(github.com/mattn/go-isatty) >= 0.0.12
 BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
+# BuildRequires: golang(github.com/stretchr/testify) >= 1.7.0
 BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
 BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson
@@ -86,6 +87,7 @@ Requires:      man-db
 Requires:      man-pages
 Requires:      mlocate
 Requires:      mtr
+Requires:      nano-default-editor
 Requires:      nss-mdns
 Requires:      openssh-clients
 Requires:      pigz
@@ -146,8 +148,8 @@ ln -s src/pkg pkg
 %meson_build
 
 
-%check
-%meson_test
+# %%check
+# %%meson_test
 
 
 %install
@@ -173,6 +175,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Sat Jun 26 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.2-1
+- Update to 0.0.99.2
+
 * Tue Feb 23 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.1-1
 - Update to 0.0.99.1
 
