@@ -66,6 +66,7 @@ Summary:       Set of packages to enhance the %{name} experience
 
 Requires:      %{name}-support = %{version}-%{release}
 Requires:      bash-completion
+Requires:      bc
 Requires:      bzip2
 Requires:      diffutils
 Requires:      dnf-plugins-core
@@ -77,6 +78,7 @@ Requires:      gnupg
 Requires:      gnupg2-smime
 Requires:      gvfs-client
 Requires:      hostname
+Requires:      iproute
 Requires:      iputils
 Requires:      jwhois
 Requires:      keyutils
