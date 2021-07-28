@@ -1,15 +1,18 @@
 Name:          toolbox
-Version:       0.0.99.2
+Version:       0.0.99.2^1.git9820550c82bb
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       3%{?dist}
+Release:       1%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
 URL:           https://github.com/containers/%{name}
-Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
+
+# https://github.com/containers/%%{name}/releases/download/%%{version}/%%{name}-%%{version}.tar.xz
+# Snapshot tarball
+Source0:       %{name}-%{version}.tar.xz
 
 # Fedora specific
 Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
@@ -181,6 +184,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Wed Jul 28 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^1.git9820550c82bb-1
+- Updated to 0.00.99.2^1.git9820550c82bb snapshot
+
 * Wed Jul 28 2021 Ondřej Míchal <harrymichal@seznam.cz> - 0.0.99.2-3
 - Update dependencies of -tests subpackage
 
