@@ -172,6 +172,7 @@ ln -s src/pkg pkg
 %{_datadir}/bash-completion
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-*.1*
+%config(noreplace) %{_sysconfdir}/containers/%{name}.conf
 %{_sysconfdir}/profile.d/%{name}.sh
 %{_tmpfilesdir}/%{name}.conf
 
