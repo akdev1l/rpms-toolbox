@@ -4,7 +4,7 @@ Version:       0.0.99.2
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -181,6 +181,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Wed Jul 28 2021 Ondřej Míchal <harrymichal@seznam.cz> - 0.0.99.2-3
+- Update dependencies of -tests subpackage
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.99.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
