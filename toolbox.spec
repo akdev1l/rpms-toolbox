@@ -1,5 +1,5 @@
 Name:          toolbox
-Version:       0.0.99.2^1.git9820550c82bb
+Version:       0.0.99.2^2.git40fbd377ed0b
 
 %global goipath github.com/containers/%{name}
 %gometa
@@ -185,6 +185,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Thu Jul 29 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^2.git40fbd377ed0b-1
+- Updated to 0.0.99.2^2.git40fbd377ed0b snapshot
+
 * Wed Jul 28 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^1.git9820550c82bb-1
 - Updated to 0.00.99.2^1.git9820550c82bb snapshot
 

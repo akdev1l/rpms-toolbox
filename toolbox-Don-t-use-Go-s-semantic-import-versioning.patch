@@ -1,12 +1,10 @@
-From c6e3a241c54fb16494d129bb8a455e874e0ba1ba Mon Sep 17 00:00:00 2001
-From: Oliver Gutierrez <ogutierrez@fedoraproject.org>
-Date: Wed, 28 Jul 2021 17:58:48 +0100
+From 40fbd377ed0b94060ae5fb2a60289500b66486dc Mon Sep 17 00:00:00 2001
+From: Oliver Gutierrez <ogutsua@gmail.com>
+Date: Thu, 29 Jul 2021 14:12:41 +0100
 Subject: [PATCH] Don't use Go's semantic import versioning
 
 Fedora doesn't support Go modules when building Go programs. This
 means that source code using semantic import versioning can't be built.
-
-https://github.com/containers/toolbox/pull/484
 
 ---
  src/cmd/create.go      | 2 +-
