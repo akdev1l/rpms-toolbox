@@ -4,7 +4,7 @@ Version:       0.0.99.2^3.git075b9a8d2779
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -37,6 +37,7 @@ BuildRequires: meson
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
+Requires:      containers-common
 Requires:      flatpak-session-helper
 Requires:      podman >= 1.4.0
 
@@ -185,6 +186,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Wed Aug 18 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-2
+- Require containers-common for ownership of %%{_sysconfdir}/containers
+
 * Mon Aug 09 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-1
 - Updated to 0.0.99.2^3.git075b9a8d2779 snapshot
 
