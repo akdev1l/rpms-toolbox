@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tags:  classic
+  vars:
+  - artifacts: ./artifacts
+  roles:
+  - role: nonroot_user
+  - role: run_bats_tests
+    tests:
+    - name:    toolbox
+      package: toolbox
