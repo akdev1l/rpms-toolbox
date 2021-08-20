@@ -2,7 +2,7 @@
 - name: "{{ test.name }} | install test packages"
   dnf: name="{{ test.package }}-tests" state=installed
 
-- name: "{{ test.name }} | define helper variables"
+- name: "{{ test.name }} | define helper variables" 
   set_fact:
     test_name_oneword: "{{ test.name | replace(' ','-') }}"
 
@@ -15,7 +15,6 @@
     local_environment:
       TEST_NAME:    "{{ test.name }}"
       TEST_PACKAGE: "{{ test.package }}"
-      TEST_ENV:     "{{ test.environment }}"
 
 - name: "{{ test.name }} | setup/teardown helper | see if exists"
   local_action: stat path={{ role_path }}/files/helper.{{ test_name_oneword }}.sh
@@ -31,7 +30,6 @@
     chdir: /usr/share/{{ test.package }}/test/system
   become: "{{ true if test.become is defined else false }}"
   become_user: testuser
-  environment: "{{ local_environment | combine(test.environment) }}"
 
 - name: "{{ test.name }} | pull logs"
   fetch:
