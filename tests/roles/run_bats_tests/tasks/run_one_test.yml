@@ -30,6 +30,7 @@
     chdir: /usr/share/{{ test.package }}/test/system
   become: "{{ true if test.become is defined else false }}"
   become_user: testuser
+  environment: "{{ local_environment }}"
 
 - name: "{{ test.name }} | pull logs"
   fetch:
