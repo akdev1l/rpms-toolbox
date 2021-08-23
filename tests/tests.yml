@@ -9,3 +9,7 @@
     tests:
     - name:    toolbox
       package: toolbox
+      environment:
+        PODMAN: /usr/bin/podman
+      become:  true
+      
