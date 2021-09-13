@@ -4,7 +4,7 @@ Version:       0.0.99.2^3.git075b9a8d2779
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       6%{?dist}
+Release:       7%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -186,6 +186,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Mon Sep 13 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-7
+- Rebuilt for gating tests
+
 * Thu Sep 09 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-6
 - Rebuilt for gating tests
 
