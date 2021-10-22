@@ -1,0 +1,262 @@
+From 452dc797f7ef12235e4ede83735f5d554f54b012 Mon Sep 17 00:00:00 2001
+From: Debarshi Ray <rishi@fedoraproject.org>
+Date: Thu, 21 Oct 2021 18:59:45 +0200
+Subject: [PATCH 1/2] tmpfiles.d: Style fix
+
+The subsequent commit will add an entry to create a /run/host symbolic
+link on the host that points to /, and it will require explicitly
+skipping some of the columns. Doing the same for the existing entry
+will make the file more readable.
+
+https://github.com/containers/toolbox/issues/821
+---
+ data/tmpfiles.d/toolbox.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/tmpfiles.d/toolbox.conf b/data/tmpfiles.d/toolbox.conf
+index f22b64a0f97c..bdffe7c09639 100644
+--- a/data/tmpfiles.d/toolbox.conf
++++ b/data/tmpfiles.d/toolbox.conf
+@@ -1 +1 @@
+-d /run/media 0755 root root
++d /run/media 0755 root root - -
+-- 
+2.31.1
+
+
+From 6063eb27b98939942e316771224c5653a9b2e59b Mon Sep 17 00:00:00 2001
+From: Debarshi Ray <rishi@fedoraproject.org>
+Date: Thu, 21 Oct 2021 20:22:11 +0200
+Subject: [PATCH 2/2] build: Ensure that binaries are run against their
+ build-time ABI
+
+The /usr/bin/toolbox binary is not only used to interact with toolbox
+containers and images from the host. It's also used as the entry point
+of the containers by bind mounting the binary from the host into the
+container. This means that the /usr/bin/toolbox binary on the host must
+also work inside the container, even if they have different operating
+systems.
+
+In the past, this worked perfectly well with the POSIX shell
+implementation because it got intepreted by whichever /bin/sh was
+available. However, the Go implementation, can run into ABI
+compatibility issues because binaries built on newer toolchains aren't
+meant to be run against older runtimes.
+
+The previous approach [1] of restricting the versions of the glibc
+symbols that are linked against isn't actually supported by glibc, and
+breaks if the early process start-up code changes. This is seen in
+glibc-2.34, which is used by Fedora 35 onwards, where a new version of
+the __libc_start_main symbol [2] was added as part of some security
+hardening:
+  $ objdump -T ./usr/bin/toolbox | grep GLIBC_2.34
+  0000000000000000      DF *UND*	0000000000000000  GLIBC_2.34
+    __libc_start_main
+  0000000000000000      DF *UND*	0000000000000000  GLIBC_2.34
+    pthread_detach
+  0000000000000000      DF *UND*	0000000000000000  GLIBC_2.34
+    pthread_create
+  0000000000000000      DF *UND*	0000000000000000  GLIBC_2.34
+    pthread_attr_getstacksize
+
+This means that /usr/bin/toolbox binaries built against glibc-2.34 on
+newer Fedoras fail to run against older glibcs in older Fedoras.
+
+Another option is to make the host's runtime available inside the
+toolbox container and ensure that the binary always runs against it.
+
+Luckily, almost all supported containers have the host's /usr available
+at /run/host/usr. This is exploited by embedding RPATHs or RUNPATHs to
+/run/host/usr/lib and /run/host/usr/lib64 in the binary, and changing
+the path of the dynamic linker (ie., PT_INTERP) to the one inside
+/run/host.
+
+Unfortunately, there can only be one PT_INTERP entry inside the
+binary, so there must be a /run/host on the host too. Therefore, a
+/run/host symbolic link is created on the host that points to the
+host's /.
+
+Based on ideas from Alexander Larsson and Ray Strode.
+
+[1] Commit 6ad9c631806961f3
+    https://github.com/containers/toolbox/pull/534
+
+[2] glibc commit 035c012e32c11e84
+    https://sourceware.org/git/?p=glibc.git;a=commit;h=035c012e32c11e84
+    https://sourceware.org/bugzilla/show_bug.cgi?id=23323
+
+https://github.com/containers/toolbox/issues/821
+---
+ data/tmpfiles.d/toolbox.conf      |  1 +
+ meson.build                       |  8 ++----
+ playbooks/setup-env.yaml          |  1 +
+ src/go-build-wrapper              | 17 ++++++++++---
+ src/libc-wrappers/libc-wrappers.c | 42 -------------------------------
+ src/libc-wrappers/meson.build     |  8 ------
+ src/meson.build                   |  4 ---
+ 7 files changed, 18 insertions(+), 63 deletions(-)
+ delete mode 100644 src/libc-wrappers/libc-wrappers.c
+ delete mode 100644 src/libc-wrappers/meson.build
+
+diff --git a/data/tmpfiles.d/toolbox.conf b/data/tmpfiles.d/toolbox.conf
+index bdffe7c09639..0ddb1f08830d 100644
+--- a/data/tmpfiles.d/toolbox.conf
++++ b/data/tmpfiles.d/toolbox.conf
+@@ -1 +1,2 @@
+ d /run/media 0755 root root - -
++L /run/host  -    -    -    - ../
+diff --git a/meson.build b/meson.build
+index b580c10fe7d8..ae228ee287d5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,17 +1,13 @@
+ project(
+   'toolbox',
+-  'c',
+   version: '0.0.99.2',
+   license: 'ASL 2.0',
+-  meson_version: '>= 0.42.0',
++  meson_version: '>= 0.53.0',
+ )
+ 
+-cc = meson.get_compiler('c')
+-add_project_arguments('-pthread', language: 'c')
+-add_project_link_arguments('-pthread', language: 'c')
+-
+ go = find_program('go')
+ go_md2man = find_program('go-md2man')
++patchelf = find_program('patchelf')
+ shellcheck = find_program('shellcheck', required: false)
+ skopeo = find_program('skopeo', required: false)
+ 
+diff --git a/playbooks/setup-env.yaml b/playbooks/setup-env.yaml
+index 5644f1ab01b4..7ac9b46ee3ad 100644
+--- a/playbooks/setup-env.yaml
++++ b/playbooks/setup-env.yaml
+@@ -13,6 +13,7 @@
+           - golang-github-cpuguy83-md2man
+           - meson
+           - ninja-build
++          - patchelf
+           - podman
+           - skopeo
+           - systemd
+diff --git a/src/go-build-wrapper b/src/go-build-wrapper
+index 0d27120da052..677dca94bd5a 100755
+--- a/src/go-build-wrapper
++++ b/src/go-build-wrapper
+@@ -16,9 +16,9 @@
+ #
+ 
+ 
+-if [ "$#" -ne 4 ]; then
++if [ "$#" -ne 3 ]; then
+     echo "go-build-wrapper: wrong arguments" >&2
+-    echo "Usage: go-build-wrapper [SOURCE DIR] [OUTPUT DIR] [VERSION] [libc-wrappers.a]" >&2
++    echo "Usage: go-build-wrapper [SOURCE DIR] [OUTPUT DIR] [VERSION]" >&2
+     exit 1
+ fi
+ 
+@@ -27,5 +27,16 @@ if ! cd "$1"; then
+     exit 1
+ fi
+ 
+-go build -trimpath -ldflags "-extldflags '-Wl,--wrap,pthread_sigmask $4' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2/toolbox"
++go build -trimpath -ldflags "-extldflags '-Wl,-rpath,/run/host/usr/lib -Wl,-rpath,/run/host/usr/lib64' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2/toolbox"
++
++if ! interpreter=$(patchelf --print-interpreter "$2/toolbox"); then
++    echo "go-build-wrapper: failed to read PT_INTERP from $2/toolbox" >&2
++    exit 1
++fi
++
++if ! patchelf --set-interpreter "/run/host$interpreter" "$2/toolbox"; then
++    echo "go-build-wrapper: failed to change PT_INTERP of $2/toolbox to /run/host$interpreter" >&2
++    exit 1
++fi
++
+ exit "$?"
+diff --git a/src/libc-wrappers/libc-wrappers.c b/src/libc-wrappers/libc-wrappers.c
+deleted file mode 100644
+index 7b402bc2fe78..000000000000
+--- a/src/libc-wrappers/libc-wrappers.c
++++ /dev/null
+@@ -1,42 +0,0 @@
+-/*
+- * Copyright © 2020 – 2021 Red Hat Inc.
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *    http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-
+-#include <signal.h>
+-
+-
+-#if defined __aarch64__
+-__asm__(".symver pthread_sigmask,pthread_sigmask@GLIBC_2.17");
+-#elif defined __arm__
+-__asm__(".symver pthread_sigmask,pthread_sigmask@GLIBC_2.4");
+-#elif defined __i386__
+-__asm__(".symver pthread_sigmask,pthread_sigmask@GLIBC_2.0");
+-#elif defined __powerpc64__ && _CALL_ELF == 2 /* ppc64le */
+-__asm__(".symver pthread_sigmask,pthread_sigmask@GLIBC_2.17");
+-#elif defined __s390x__
+-__asm__(".symver pthread_sigmask,pthread_sigmask@GLIBC_2.2");
+-#elif defined __x86_64__
+-__asm__(".symver pthread_sigmask,pthread_sigmask@GLIBC_2.2.5");
+-#else
+-#error "Please specify symbol version for pthread_sigmask"
+-#endif
+-
+-
+-int
+-__wrap_pthread_sigmask (int how, const sigset_t *set, sigset_t *oldset)
+-{
+-  return pthread_sigmask (how, set, oldset);
+-}
+diff --git a/src/libc-wrappers/meson.build b/src/libc-wrappers/meson.build
+deleted file mode 100644
+index 3984ce449c57..000000000000
+--- a/src/libc-wrappers/meson.build
++++ /dev/null
+@@ -1,8 +0,0 @@
+-sources = files(
+-  'libc-wrappers.c',
+-)
+-
+-libc_wrappers = static_library(
+-  'c-wrappers',
+-  sources,
+-)
+diff --git a/src/meson.build b/src/meson.build
+index f76606da3271..759db1f1e900 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -1,5 +1,3 @@
+-subdir('libc-wrappers')
+-
+ go_build_wrapper_file = files('go-build-wrapper')
+ go_build_wrapper_program = find_program('go-build-wrapper')
+ 
+@@ -28,9 +26,7 @@ custom_target(
+     meson.current_source_dir(),
+     meson.current_build_dir(),
+     meson.project_version(),
+-    libc_wrappers.full_path(),
+   ],
+-  depends: libc_wrappers,
+   input: sources,
+   install: true,
+   install_dir: get_option('bindir'),
+-- 
+2.31.1
+

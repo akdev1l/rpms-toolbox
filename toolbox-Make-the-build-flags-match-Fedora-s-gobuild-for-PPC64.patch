@@ -1,4 +1,4 @@
-From 5ec9997c0f11bb9d1f7eee2e5014130cadc70c91 Mon Sep 17 00:00:00 2001
+From df2d42ec5aee27f9f92ce7825d020425c2dac885 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <rishi@fedoraproject.org>
 Date: Mon, 29 Jun 2020 17:57:47 +0200
 Subject: [PATCH] build: Make the build flags match Fedora's %{gobuild} for
@@ -24,17 +24,19 @@ and should be kept updated to match Fedora's Go guidelines. Use
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/go-build-wrapper b/src/go-build-wrapper
-index 0d27120da052..03a32bc5af33 100755
+index 677dca94bd5a..e6e9caf1049e 100755
 --- a/src/go-build-wrapper
 +++ b/src/go-build-wrapper
-@@ -27,5 +27,6 @@ if ! cd "$1"; then
+@@ -27,7 +27,8 @@ if ! cd "$1"; then
      exit 1
  fi
  
--go build -trimpath -ldflags "-extldflags '-Wl,--wrap,pthread_sigmask $4' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2/toolbox"
+-go build -trimpath -ldflags "-extldflags '-Wl,-rpath,/run/host/usr/lib -Wl,-rpath,/run/host/usr/lib64' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2/toolbox"
 +unset LDFLAGS
-+go build -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -compressdwarf=false -extldflags '-Wl,-z,relro -Wl,--as-needed  -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,--wrap,pthread_sigmask $4' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -a -v -x -o "$2/toolbox"
- exit "$?"
++go build -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -compressdwarf=false -extldflags '-Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-rpath,/run/host/usr/lib -Wl,-rpath,/run/host/usr/lib64' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -a -v -x -o "$2/toolbox"
+ 
+ if ! interpreter=$(patchelf --print-interpreter "$2/toolbox"); then
+     echo "go-build-wrapper: failed to read PT_INTERP from $2/toolbox" >&2
 -- 
 2.31.1
 

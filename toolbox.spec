@@ -1,10 +1,12 @@
+%global __brp_check_rpaths %{nil}
+
 Name:          toolbox
 Version:       0.0.99.2^3.git075b9a8d2779
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       7%{?dist}
+Release:       8%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -13,6 +15,9 @@ URL:           https://github.com/containers/%{name}
 # https://github.com/containers/%%{name}/releases/download/%%{version}/%%{name}-%%{version}.tar.xz
 # Snapshot tarball
 Source0:       %{name}-%{version}.tar.xz
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1995439
+Patch0:        toolbox-Ensure-that-binaries-are-run-against-their-build-time-ABI.patch
 
 # Fedora specific
 Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
@@ -34,6 +39,7 @@ BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
 BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
 BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson
+BuildRequires: patchelf
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
@@ -137,6 +143,7 @@ The %{name}-tests package contains system tests for %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
 %patch100 -p1
 
 %ifnarch ppc64
@@ -186,6 +193,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Fri Oct 22 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-8
+- Ensure that binaries are run against their build-time ABI
+
 * Mon Sep 13 2021 Oliver Gutiérrez <ogutierrez@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-7
 - Rebuilt for gating tests
 
