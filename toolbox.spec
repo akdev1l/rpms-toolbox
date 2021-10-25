@@ -6,7 +6,7 @@ Version:       0.0.99.2^3.git075b9a8d2779
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       8%{?dist}
+Release:       9%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -193,6 +193,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Mon Oct 25 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-9
+- Restore backwards compatibility with existing containers
+
 * Fri Oct 22 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-8
 - Ensure that binaries are run against their build-time ABI
 
