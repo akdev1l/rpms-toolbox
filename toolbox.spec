@@ -1,23 +1,18 @@
 %global __brp_check_rpaths %{nil}
 
 Name:          toolbox
-Version:       0.0.99.2^3.git075b9a8d2779
+Version:       0.0.99.3
 
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       9%{?dist}
+Release:       1%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
 URL:           https://github.com/containers/%{name}
 
-# https://github.com/containers/%%{name}/releases/download/%%{version}/%%{name}-%%{version}.tar.xz
-# Snapshot tarball
-Source0:       %{name}-%{version}.tar.xz
-
-# https://bugzilla.redhat.com/show_bug.cgi?id=1995439
-Patch0:        toolbox-Ensure-that-binaries-are-run-against-their-build-time-ABI.patch
+Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 
 # Fedora specific
 Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
@@ -39,7 +34,6 @@ BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
 BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
 BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson
-BuildRequires: patchelf
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd
 
@@ -61,6 +55,7 @@ Summary:       Required packages for the container image to support %{name}
 # These are really required to make the image work with toolbox
 Requires:      passwd
 Requires:      shadow-utils
+Requires:      util-linux
 Requires:      vte-profile
 
 %description   support
@@ -97,7 +92,6 @@ Requires:      less
 Requires:      lsof
 Requires:      man-db
 Requires:      man-pages
-Requires:      mlocate
 Requires:      mtr
 Requires:      nano-default-editor
 Requires:      nss-mdns
@@ -143,7 +137,6 @@ The %{name}-tests package contains system tests for %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch100 -p1
 
 %ifnarch ppc64
@@ -193,6 +186,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Fri Dec 10 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.3-1
+- Update to 0.0.99.3
+
 * Mon Oct 25 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.2^3.git075b9a8d2779-9
 - Restore backwards compatibility with existing containers
 

@@ -1,4 +1,4 @@
-From df2d42ec5aee27f9f92ce7825d020425c2dac885 Mon Sep 17 00:00:00 2001
+From 32aa30a17358598f568991a5375f6182e4135648 Mon Sep 17 00:00:00 2001
 From: Debarshi Ray <rishi@fedoraproject.org>
 Date: Mon, 29 Jun 2020 17:57:47 +0200
 Subject: [PATCH] build: Make the build flags match Fedora's %{gobuild} for
@@ -20,23 +20,44 @@ Note that these flags are only meant for the "ppc64" CPU architecture,
 and should be kept updated to match Fedora's Go guidelines. Use
 'rpm --eval "%{gobuild}"' to expand the %{gobuild} macro.
 ---
- src/go-build-wrapper | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ src/go-build-wrapper | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/src/go-build-wrapper b/src/go-build-wrapper
-index 677dca94bd5a..e6e9caf1049e 100755
+index ef4aafc8b024..f8ea8370792c 100755
 --- a/src/go-build-wrapper
 +++ b/src/go-build-wrapper
-@@ -27,7 +27,8 @@ if ! cd "$1"; then
+@@ -32,9 +32,9 @@ if ! cd "$1"; then
      exit 1
  fi
  
--go build -trimpath -ldflags "-extldflags '-Wl,-rpath,/run/host/usr/lib -Wl,-rpath,/run/host/usr/lib64' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -o "$2/toolbox"
-+unset LDFLAGS
-+go build -compiler gc -tags="rpm_crashtraceback ${BUILDTAGS:-}" -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -compressdwarf=false -extldflags '-Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-rpath,/run/host/usr/lib -Wl,-rpath,/run/host/usr/lib64' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" -a -v -x -o "$2/toolbox"
+-tags=""
++tags="-tags rpm_crashtraceback,${BUILDTAGS:-}"
+ if $6; then
+-    tags="-tags migration_path_for_coreos_toolbox"
++    tags="$tags,migration_path_for_coreos_toolbox"
+ fi
  
- if ! interpreter=$(patchelf --print-interpreter "$2/toolbox"); then
-     echo "go-build-wrapper: failed to read PT_INTERP from $2/toolbox" >&2
+ if ! libc_dir=$("$4" --print-file-name=libc.so); then
+@@ -69,11 +69,16 @@ fi
+ 
+ dynamic_linker="/run/host$dynamic_linker_canonical_dirname/$dynamic_linker_basename"
+ 
++unset LDFLAGS
++
+ # shellcheck disable=SC2086
+ go build \
++        -compiler gc \
+         $tags \
+-        -trimpath \
+-        -ldflags "-extldflags '-Wl,-dynamic-linker,$dynamic_linker -Wl,-rpath,/run/host$libc_dir_canonical_dirname' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" \
++        -ldflags "${LDFLAGS:-} -B 0x$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n') -compressdwarf=false -extldflags '-Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-dynamic-linker,$dynamic_linker -Wl,-rpath,/run/host$libc_dir_canonical_dirname' -linkmode external -X github.com/containers/toolbox/pkg/version.currentVersion=$3" \
++        -a \
++        -v \
++        -x \
+         -o "$2/toolbox"
+ 
+ exit "$?"
 -- 
 2.31.1
 
