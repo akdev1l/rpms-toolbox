@@ -6,7 +6,7 @@ Version:       0.0.99.3
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -34,7 +34,7 @@ BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
 BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson >= 0.58.0
 BuildRequires: pkgconfig(bash-completion)
-BuildRequires: systemd
+BuildRequires: systemd-rpm-macros
 
 Requires:      containers-common
 Requires:      flatpak-session-helper
@@ -153,7 +153,7 @@ export GOPATH=%{gobuilddir}:%{gopath}
 export CGO_CFLAGS="%{optflags} -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 ln -s src/cmd cmd
 ln -s src/pkg pkg
-%meson --buildtype=plain -Dprofile_dir=%{_sysconfdir}/profile.d
+%meson --buildtype=plain -Dprofile_dir=%{_sysconfdir}/profile.d -Dtmpfiles_dir=%{_tmpfilesdir}
 %meson_build
 
 
@@ -185,6 +185,10 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Fri Dec 10 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.3-2
+- BuildRequire only systemd-rpm-macros as recommended by the Fedora packaging
+  guidelines
+
 * Fri Dec 10 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.3-1
 - Update to 0.0.99.3
 
