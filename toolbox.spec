@@ -11,7 +11,6 @@ Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
 URL:           https://containertoolbx.org/
-
 Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
 
 # Fedora specific
