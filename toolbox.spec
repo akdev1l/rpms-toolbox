@@ -6,7 +6,7 @@ Version:       0.0.99.3
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -17,6 +17,7 @@ Source0:       https://github.com/containers/%{name}/releases/download/%{version
 Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
 Patch101:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild.patch
 Patch102:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild-for-PPC64.patch
+Patch103:      toolbox-cmd-root-Work-around-Cobra-1.1.2-s-handling-of-usage.patch
 
 BuildRequires: ShellCheck
 BuildRequires: golang >= 1.13
@@ -144,6 +145,8 @@ The %{name}-tests package contains system tests for %{name}.
 %patch102 -p1
 %endif
 
+%patch103 -p1
+
 %gomkdir
 
 
@@ -185,6 +188,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Sun Jan 09 2022 Ondřej Míchal <harrymichal@fedoraproject.org> - 0.0.99.3-3
+- Add upstream patch fixing doubled error messages
+
 * Fri Dec 10 2021 Debarshi Ray <rishi@fedoraproject.org> - 0.0.99.3-2
 - BuildRequire only systemd-rpm-macros as recommended by the Fedora packaging
   guidelines
