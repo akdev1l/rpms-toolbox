@@ -20,8 +20,8 @@ Patch102:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild-for-PPC64.pat
 Patch103:      toolbox-cmd-root-Work-around-Cobra-1.1.2-s-handling-of-usage.patch
 
 BuildRequires: ShellCheck
+BuildRequires: go-md2man
 BuildRequires: golang >= 1.13
-BuildRequires: golang-github-cpuguy83-md2man
 BuildRequires: golang(github.com/HarryMichal/go-version)
 BuildRequires: golang(github.com/acobaugh/osrelease)
 BuildRequires: golang(github.com/briandowns/spinner) >= 1.10.0
