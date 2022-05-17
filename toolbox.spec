@@ -33,6 +33,7 @@ BuildRequires: golang(github.com/sirupsen/logrus) >= 1.4.2
 # BuildRequires: golang(github.com/stretchr/testify) >= 1.7.0
 BuildRequires: golang(github.com/spf13/cobra) >= 0.0.5
 BuildRequires: golang(github.com/spf13/viper) >= 1.3.2
+BuildRequires: golang(golang.org/x/crypto/ssh/terminal)
 BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson >= 0.58.0
 BuildRequires: pkgconfig(bash-completion)
