@@ -6,7 +6,7 @@ Version:       0.0.99.3
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -190,6 +190,10 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Sat Jun 18 2022 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.99.3-5
+- Rebuilt for CVE-2022-1996, CVE-2022-24675, CVE-2022-28327, CVE-2022-27191,
+  CVE-2022-29526, CVE-2022-30629
+
 * Sat Jan 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.99.3-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
