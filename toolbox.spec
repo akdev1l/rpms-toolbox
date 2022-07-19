@@ -6,7 +6,7 @@ Version:       0.0.99.3
 %global goipath github.com/containers/%{name}
 %gometa
 
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
@@ -190,6 +190,10 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Tue Jul 19 2022 Maxwell G <gotmax@e.email> - 0.0.99.3-6
+- Rebuild for CVE-2022-{1705,32148,30631,30633,28131,30635,30632,30630,1962} in
+  golang
+
 * Sat Jun 18 2022 Robert-André Mauchin <zebob.m@gmail.com> - 0.0.99.3-5
 - Rebuilt for CVE-2022-1996, CVE-2022-24675, CVE-2022-28327, CVE-2022-27191,
   CVE-2022-29526, CVE-2022-30629
