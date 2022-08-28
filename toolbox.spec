@@ -1,23 +1,19 @@
 %global __brp_check_rpaths %{nil}
+%undefine _missing_build_ids_terminate_build
+%define debug_package %{nil}
 
 Name:          toolbox
-Version:       0.0.99.3
+Version:       0.1.00.0
 
-%global goipath github.com/containers/%{name}
+%global goipath github.com/akdev1l/%{name}
 %gometa
 
-Release:       7%{?dist}
+Release:       8%{?dist}
 Summary:       Tool for containerized command line environments on Linux
 
 License:       ASL 2.0
-URL:           https://containertoolbx.org/
-Source0:       https://github.com/containers/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
-
-# Fedora specific
-Patch100:      toolbox-Don-t-use-Go-s-semantic-import-versioning.patch
-Patch101:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild.patch
-Patch102:      toolbox-Make-the-build-flags-match-Fedora-s-gobuild-for-PPC64.patch
-Patch103:      toolbox-cmd-root-Work-around-Cobra-1.1.2-s-handling-of-usage.patch
+URL:           https://github.com/akdev1l/%{name}
+Source0:       https://github.com/akdev1l/%{name}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires: ShellCheck
 BuildRequires: go-md2man
@@ -41,7 +37,7 @@ BuildRequires: systemd-rpm-macros
 
 Requires:      containers-common
 Requires:      flatpak-session-helper
-Requires:      podman >= 1.4.0
+Requires:      podman >= 3.0.0
 
 
 %description
@@ -113,6 +109,7 @@ Requires:      words
 Requires:      xorg-x11-xauth
 Requires:      xz
 Requires:      zip
+Requires:      podman-remote
 
 %description   experience
 The %{name}-experience package contains all the packages that should be
@@ -139,26 +136,15 @@ The %{name}-tests package contains system tests for %{name}.
 
 %prep
 %setup -q
-%patch100 -p1
-
-%ifnarch ppc64
-%patch101 -p1
-%else
-%patch102 -p1
-%endif
-
-%patch103 -p1
 
 %gomkdir
 
 
 %build
-export GO111MODULE=off
 export GOPATH=%{gobuilddir}:%{gopath}
-export CGO_CFLAGS="%{optflags} -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
 ln -s src/cmd cmd
 ln -s src/pkg pkg
-%meson --buildtype=plain -Dprofile_dir=%{_sysconfdir}/profile.d -Dtmpfiles_dir=%{_tmpfilesdir}
+%meson --buildtype=plain --prefix=%{_prefix} -Dprofile_dir=%{_sysconfdir}/profile.d -Dtmpfiles_dir=%{_tmpfilesdir}
 %meson_build
 
 
@@ -175,8 +161,11 @@ ln -s src/pkg pkg
 %license COPYING
 %{_bindir}/%{name}
 %{_datadir}/bash-completion
+%{_datadir}/fish/completions/toolbox.fish
+%{_datadir}/zsh/site_functions/_toolbox
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-*.1*
+%{_mandir}/man5/toolbox.conf.5.gz
 %config(noreplace) %{_sysconfdir}/containers/%{name}.conf
 %{_sysconfdir}/profile.d/%{name}.sh
 %{_tmpfilesdir}/%{name}.conf
@@ -190,6 +179,9 @@ ln -s src/pkg pkg
 
 
 %changelog
+* Sun Aug 28 2022 Alex Diaz <alex@akdev.xyz> - 0.0.99.4-8
+- Forked original upstream - creating package for the fork
+
 * Sat Jul 23 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.0.99.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
