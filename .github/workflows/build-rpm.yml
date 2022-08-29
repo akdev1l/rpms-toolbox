@@ -1,0 +1,24 @@
+name: build-rpm
+
+on:
+  push:
+    branch: akdev
+    paths:
+      - "toolbox.spec"
+      - ".github/workflows/build-rpm.yml"
+
+jobs:
+  build:
+    name: build rpm packages
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os_version: [36, 37]
+    container:
+      image: fedora:${{ matrix.os_version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: install go-srpm-macros and builddep
+        run: dnf install -y /usr/bin/rpmbuild go-srpm-macros 'dnf-command(builddep)'
+      - name: install build dependencies
+        run: ./ci/build.sh 0.1.00.0

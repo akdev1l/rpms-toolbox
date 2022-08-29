@@ -34,6 +34,7 @@ BuildRequires: golang(golang.org/x/sys/unix)
 BuildRequires: meson >= 0.58.0
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd-rpm-macros
+BuildRequires: go-srpm-macros
 
 Requires:      containers-common
 Requires:      flatpak-session-helper
