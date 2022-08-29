@@ -149,7 +149,7 @@ The %{name}-tests package contains system tests for %{name}.
 export GOPATH=%{gobuilddir}:%{gopath}
 ln -s src/cmd cmd
 ln -s src/pkg pkg
-%meson --buildtype=plain --prefix=%{_prefix} -Dprofile_dir=%{_sysconfdir}/profile.d -Dtmpfiles_dir=%{_tmpfilesdir}
+%meson --buildtype=plain --prefix=%{_prefix} -Dprofile_dir=%{_sysconfdir}/profile.d -Dtmpfiles_dir=%{_tmpfilesdir} -Dinstall_completions=false
 %meson_build
 
 
@@ -165,9 +165,9 @@ ln -s src/pkg pkg
 %doc CODE-OF-CONDUCT.md NEWS README.md SECURITY.md
 %license COPYING
 %{_bindir}/%{name}
-%{_datadir}/bash-completion
-%{_datadir}/fish/completions/toolbox.fish
-%{_datadir}/zsh/site_functions/_toolbox
+#%{_datadir}/bash-completion
+#%{_datadir}/fish/completions/toolbox.fish
+#%{_datadir}/zsh/site_functions/_toolbox
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-*.1*
 %{_mandir}/man5/toolbox.conf.5.gz
