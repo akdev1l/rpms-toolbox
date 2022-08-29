@@ -35,6 +35,9 @@ BuildRequires: meson >= 0.58.0
 BuildRequires: pkgconfig(bash-completion)
 BuildRequires: systemd-rpm-macros
 BuildRequires: go-srpm-macros
+BuildRequires: systemd
+BuildRequires: fish
+BuildRequires: cmake
 
 Requires:      containers-common
 Requires:      flatpak-session-helper
