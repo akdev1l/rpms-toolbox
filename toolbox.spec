@@ -38,6 +38,7 @@ BuildRequires: go-srpm-macros
 BuildRequires: systemd
 BuildRequires: fish
 BuildRequires: cmake
+BuildRequires: git
 
 Requires:      containers-common
 Requires:      flatpak-session-helper
