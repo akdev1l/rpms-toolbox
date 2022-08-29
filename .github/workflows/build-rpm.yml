@@ -6,6 +6,7 @@ on:
     paths:
       - "toolbox.spec"
       - ".github/workflows/build-rpm.yml"
+      - "ci/**"
 
 jobs:
   build:
