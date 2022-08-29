@@ -23,3 +23,33 @@ jobs:
         run: dnf install -y /usr/bin/rpmbuild go-srpm-macros 'dnf-command(builddep)' podman
       - name: install build dependencies
         run: ./ci/build.sh 0.1.00.0
+      - name: create github release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: 0.1.00.0
+          release_name: v0.1.00.0
+          body: |
+            testing release
+          draft: false
+          prerelease: true
+      - name: upload srpm file to releases page
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "$HOME/rpmbuild/SRPMS/toolbox-0.1.00.0-8.fc36.src.rpm"
+          asset_name: "toolbox-0.1.00.0-8.fc36.src.rpm"
+          asset_content_type: "application/octet-stream"
+      - name: upload rpm files to releases page
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "$HOME/rpmbuild/RPMS/x86_64/toolbox-0.1.00.0-8.fc36.x86_64.rpm"
+          asset_name: "toolbox-0.1.00.0-8.fc36.x86_64.rpm"
+          asset_content_type: "application/octet-stream"
