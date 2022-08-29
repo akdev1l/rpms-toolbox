@@ -20,6 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install go-srpm-macros and builddep
-        run: dnf install -y /usr/bin/rpmbuild go-srpm-macros 'dnf-command(builddep)'
+        run: dnf install -y /usr/bin/rpmbuild go-srpm-macros 'dnf-command(builddep)' podman
       - name: install build dependencies
         run: ./ci/build.sh 0.1.00.0
